@@ -177,7 +177,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[90vh] mt-16">
         <Image
-          src="/images/banner.png"
+          src="/images/Banner.png"
           alt="Hero Image"
           fill
           className="object-cover"
