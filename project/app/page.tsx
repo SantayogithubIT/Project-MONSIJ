@@ -6,55 +6,57 @@ import { ShoppingBag, Heart, Search } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { convertToINR } from "@/lib/currencyConverter";
+//import { convertToINR } from "@/lib/currencyConverter";
 import Link from "next/link";
 //import { Image } from 'lucide-react';
+import { convertUsdToInr } from '@/lib/currencyConverter';
 
+interface CartItem {
+  id: number;
+  name: string;
+  priceINR: number;
+  quantity: number;
+}
 const featuredProducts = [
   {
     id: 1,
     name: 'Katan silk sarees ',
-    price: 200,
+    priceINR: 2000,
     image: '/images/katan1.jpg',
     category: 'Sarees'
   },
   {
     id: 2,
     name: 'Bagru Block Printed Shirt',
-    price: 249.99,
+    priceINR: 2499,
     image: '/images/jama.jpg',
     category: 'Printed Shirt'
   },
   {
     id: 3,
     name: 'Laptop Bags',
-    price: 179.99,
+    priceINR: 1799,
     image: '/images/laptop bag.jpg',
     category: 'Bags'
   },
   {
     id: 4,
     name: 'Pure Cotton Ikkat Blouse',
-    price: 89.99,
+    priceINR: 899,
     image: '/images/blouse.jpg',
     category: 'Tops'
   },
   {
     id: 5,
     name: 'Pure Cotton Punjabi',
-    price: 50.99,
+    priceINR: 599,
     image: '/images/punjabi2.jpg',
     category: 'Punjabi'
   },
 ];
 
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+
 
 export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -93,7 +95,7 @@ export default function Home() {
   };
 
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
-  const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const cartTotal = cart.reduce((total, item) => total + (item.priceINR * item.quantity), 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,8 +105,10 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             <h1 className="text-2xl font-bold">MONSIJ</h1>
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-foreground/80 hover:text-foreground">New Arrivals</a>
-              <a href="/collection"className="text-foreground/80 hover:text-foreground">Collections</a>
+              <Link href="/new-arrival">
+              <p className="text-foreground/80 hover:text-foreground">New Arrivals</p>
+              </Link> 
+              <a href="#"className="text-foreground/80 hover:text-foreground">Collections</a>
               <a href="#" className="text-foreground/80 hover:text-foreground">Sale</a>
               <a href="#" className="text-foreground/80 hover:text-foreground">About</a>
             </nav>
@@ -155,7 +159,7 @@ export default function Home() {
                         <h3 className="font-medium">{item.name}</h3>
                         <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                       </div>
-                      <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-medium">${(item.priceINR * item.quantity).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>
@@ -251,7 +255,7 @@ export default function Home() {
                   <p className="text-sm text-muted-foreground mb-1">{product.category}</p>
                   <h4 className="font-semibold mb-2">{product.name}</h4>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold">${product.price}</span>
+                    <span className="font-bold">${product.priceINR}</span>
                     <Button 
                       variant="outline" 
                       size="sm"
